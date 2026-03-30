@@ -1,0 +1,85 @@
+<svg width="1440" height="920" viewBox="0 0 1440 920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1440" y2="920" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8EFD9"/>
+      <stop offset="0.55" stop-color="#F5E8DA"/>
+      <stop offset="1" stop-color="#ECE2D8"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#D86F45"/>
+      <stop offset="1" stop-color="#F2A45F"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#5A3D2B" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="920" fill="url(#bg)"/>
+
+  <circle cx="1240" cy="120" r="120" fill="#E8A677" fill-opacity="0.24"/>
+  <circle cx="180" cy="720" r="140" fill="#E5C16C" fill-opacity="0.18"/>
+  <circle cx="730" cy="180" r="80" fill="#A98063" fill-opacity="0.10"/>
+
+  <g filter="url(#shadow)">
+    <rect x="48" y="42" width="884" height="162" rx="28" fill="#FFF8F0" fill-opacity="0.88"/>
+    <rect x="966" y="42" width="426" height="162" rx="28" fill="#FFF8F0" fill-opacity="0.88"/>
+    <rect x="48" y="230" width="404" height="638" rx="28" fill="#FFF8F0" fill-opacity="0.88"/>
+    <rect x="478" y="230" width="914" height="638" rx="28" fill="#FFF8F0" fill-opacity="0.88"/>
+  </g>
+
+  <rect x="86" y="78" width="64" height="64" rx="18" fill="url(#accent)"/>
+  <rect x="172" y="80" width="300" height="24" rx="12" fill="#382A22"/>
+  <rect x="172" y="116" width="430" height="16" rx="8" fill="#8B7767"/>
+  <rect x="172" y="150" width="180" height="14" rx="7" fill="#C8B6A5"/>
+  <rect x="366" y="150" width="210" height="14" rx="7" fill="#D9C6B6"/>
+  <rect x="590" y="150" width="182" height="14" rx="7" fill="#E5D6C7"/>
+
+  <rect x="720" y="78" width="170" height="42" rx="16" fill="url(#accent)"/>
+  <rect x="720" y="136" width="170" height="42" rx="16" fill="#FFFFFF"/>
+
+  <rect x="994" y="72" width="180" height="50" rx="18" fill="#FFFFFF"/>
+  <rect x="1186" y="72" width="180" height="50" rx="18" fill="#FFFFFF"/>
+  <rect x="994" y="132" width="180" height="50" rx="18" fill="#FFFFFF"/>
+  <rect x="1186" y="132" width="180" height="50" rx="18" fill="#FFFFFF"/>
+
+  <rect x="82" y="274" width="336" height="76" rx="20" fill="#FFFFFF"/>
+  <rect x="82" y="372" width="160" height="142" rx="20" fill="#FFFFFF"/>
+  <rect x="258" y="372" width="160" height="142" rx="20" fill="#FFFFFF"/>
+  <rect x="82" y="530" width="160" height="142" rx="20" fill="#FFFFFF"/>
+  <rect x="258" y="530" width="160" height="142" rx="20" fill="#FFFFFF"/>
+  <rect x="82" y="696" width="336" height="132" rx="22" fill="#FFF5EA"/>
+
+  <rect x="514" y="266" width="842" height="90" rx="20" fill="#FFF5EA"/>
+  <rect x="514" y="388" width="78" height="78" rx="18" fill="#F5D4B8"/>
+  <rect x="612" y="388" width="440" height="154" rx="24" fill="#FFFFFF"/>
+  <rect x="936" y="568" width="420" height="140" rx="24" fill="url(#accent)"/>
+  <rect x="1280" y="728" width="56" height="56" rx="18" fill="#FFFFFF"/>
+  <rect x="514" y="728" width="756" height="94" rx="24" fill="#FFFFFF"/>
+
+  <rect x="612" y="572" width="78" height="78" rx="18" fill="url(#accent)"/>
+  <rect x="710" y="572" width="180" height="110" rx="24" fill="#FFFFFF"/>
+
+  <rect x="546" y="768" width="620" height="18" rx="9" fill="#8B7767"/>
+  <rect x="546" y="796" width="420" height="14" rx="7" fill="#C7B3A3"/>
+
+  <rect x="638" y="418" width="260" height="18" rx="9" fill="#382A22"/>
+  <rect x="638" y="450" width="360" height="12" rx="6" fill="#917D6D"/>
+  <rect x="638" y="474" width="320" height="12" rx="6" fill="#C3AF9E"/>
+  <rect x="638" y="500" width="220" height="12" rx="6" fill="#DBC8B8"/>
+
+  <rect x="734" y="602" width="110" height="14" rx="7" fill="#382A22"/>
+  <rect x="734" y="628" width="132" height="12" rx="6" fill="#8A7667"/>
+
+  <rect x="970" y="604" width="240" height="16" rx="8" fill="#FFFFFF"/>
+  <rect x="970" y="632" width="290" height="12" rx="6" fill="#FFE9D5"/>
+  <rect x="970" y="656" width="220" height="12" rx="6" fill="#FFD3B4"/>
+
+  <rect x="106" y="298" width="180" height="18" rx="9" fill="#382A22"/>
+  <rect x="106" y="326" width="252" height="12" rx="6" fill="#8D7969"/>
+
+  <rect x="106" y="724" width="200" height="16" rx="8" fill="#7C5E49"/>
+  <rect x="106" y="752" width="260" height="12" rx="6" fill="#A47E64"/>
+  <rect x="106" y="776" width="220" height="12" rx="6" fill="#C6A48E"/>
+
+  <text x="62" y="30" fill="#6E5546" font-family="Arial, sans-serif" font-size="20" font-weight="700">RAG_Venix UI Overview</text>
+</svg>
