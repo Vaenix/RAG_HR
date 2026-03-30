@@ -235,19 +235,3 @@ flowchart LR
 - 支持用户上传后持久化保存 FAISS 索引
 - 增加真实页面截图到 `docs/` 目录
 
-## 说明
-
-当前仓库中的前端页面文件是：
-
-- [static/index.html](static/index.html)
-
-后端主服务文件是：
-
-- [app.py](app.py)
-
-如果你希望，我下一步可以继续帮你补：
-
-1. `.gitignore`
-2. `requirements.txt`
-3. README 中的真实界面截图
-4. 中英文双语版 README
