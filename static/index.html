@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技HR助手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .header-content {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* 主要内容区域 - 全屏布局 */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            margin: 0;
+            padding: 1rem;
+            gap: 1rem;
+            height: calc(100vh - 80px);
+            /* 减去header高度 */
+        }
+
+        /* 欢迎卡片 - 可收起 */
+        .welcome-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .welcome-card.collapsed {
+            padding: 0.75rem 1.5rem;
+        }
+
+        .welcome-card.collapsed .welcome-content {
+            display: none;
+        }
+
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-card h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .welcome-card.collapsed h2 {
+            margin-bottom: 0;
+            font-size: 1.2rem;
+        }
+
+        .collapse-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .collapse-btn.rotated {
+            transform: rotate(180deg);
+        }
+
+        .welcome-card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .feature-item:hover i {
+            color: white;
+        }
+
+        /* 聊天容器 - 全屏 */
+        .chat-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            /* 重要：允许flex子项收缩 */
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .chat-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #fafbfc;
+            min-height: 0;
+            /* 重要：允许overflow工作 */
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 1.5rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin: 0 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            order: 2;
+        }
+
+        .message.assistant .message-avatar {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 1.25rem 1.5rem;
+            border-radius: 20px;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 8px;
+        }
+
+        .message.assistant .message-content {
+            background: white;
+            color: #2d3748;
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Markdown样式 */
+        .message-text {
+            line-height: 1.7;
+        }
+
+        .message-text h1 {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 1em 0 0.5em 0;
+            color: #1a365d;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.3em;
+        }
+
+        .message-text h2 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 1em 0 0.5em 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.2em;
+        }
+
+        .message-text h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 0.8em 0 0.4em 0;
+            color: #34495e;
+        }
+
+        .message-text h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 0.6em 0 0.3em 0;
+            color: #34495e;
+        }
+
+        .message.user .message-text h1,
+        .message.user .message-text h2,
+        .message.user .message-text h3,
+        .message.user .message-text h4 {
+            color: rgba(255, 255, 255, 0.95);
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .message-text p {
+            margin: 0.75rem 0;
+        }
+
+        .message-text p:first-child {
+            margin-top: 0;
+        }
+
+        .message-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-text strong {
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .message.user .message-text strong {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* 列表样式 */
+        .message-text ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .message-text ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .message-text li {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .message-text ul li {
+            list-style-type: disc;
+        }
+
+        .message-text ol li {
+            list-style-type: decimal;
+        }
+
+        /* 代码块样式 */
+        .message-text code {
+            background: #f1f5f9;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .message.user .message-text code {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .message-text pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .message-text pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* 引用样式 */
+        .message-text blockquote {
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background: #f8fafc;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .message.user .message-text blockquote {
+            border-left-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin: 1.25rem 0 0.75rem 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .message.user .section-title {
+            color: rgba(255, 255, 255, 0.95);
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .list-container {
+            margin: 1rem 0;
+            padding: 0.75rem 0;
+        }
+
+        .list-item {
+            margin: 0.75rem 0;
+            padding-left: 0.75rem;
+        }
+
+        .list-item.numbered {
+            font-weight: 500;
+            color: #2d3748;
+            padding: 0.5rem 0;
+        }
+
+        .list-item.bulleted {
+            position: relative;
+            padding-left: 1.5rem;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+        }
+
+        .list-item.important {
+            font-weight: 500;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .message.user .list-item.important {
+            background: rgba(255, 255, 255, 0.15);
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.75rem;
+            text-align: right;
+        }
+
+        .relevance-indicator {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.75rem;
+        }
+
+        .relevance-indicator.relevant {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .relevance-indicator.irrelevant {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* 输入区域 */
+        .chat-input-container {
+            padding: 1.5rem;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            max-width: 100%;
+        }
+
+        .chat-input {
+            flex: 1;
+            min-height: 50px;
+            max-height: 120px;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: #fafbfc;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .send-button {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .send-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 打字指示器 */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            color: #64748b;
+            font-style: italic;
+            background: #f8fafc;
+            flex-shrink: 0;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #64748b;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .status-info {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-container {
+                padding: 0.5rem;
+                height: calc(100vh - 120px);
+                /* 调整移动端header高度 */
+            }
+
+            .welcome-card {
+                padding: 1rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .chat-messages {
+                padding: 1rem;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .chat-input-container {
+                padding: 1rem;
+            }
+        }
+
+        /* 滚动条样式 */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-users"></i>
+                <div>
+                    <div>科技HR助手</div>
+                    <div style="font-size: 0.8rem; opacity: 0.9;">智能人力资源政策咨询</div>
+                </div>
+            </div>
+            <div class="status-info">
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>系统在线</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-database"></i>
+                    <span>向量库: <span id="vectorCount">-</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-comments"></i>
+                    <span>消息: <span id="messageCount">0</span></span>
+                </div>
+                <button onclick="exportChat()"
+                    style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                    <i class="fas fa-download"></i> 导出对话
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <div class="main-container">
+        <!-- 欢迎卡片 - 可收起 -->
+        <div class="welcome-card" id="welcomeCard">
+            <div class="welcome-header">
+                <h2>👋 欢迎使用科技HR助手</h2>
+                <button class="collapse-btn" onclick="toggleWelcome()">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+            </div>
+            <div class="welcome-content">
+                <p>我是您的专业人力资源政策顾问，可以帮助您了解公司的各项政策和制度</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-gift"></i>
+                        <h4>员工福利</h4>
+                        <p>了解各种福利政策</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h4>休假制度</h4>
+                        <p>查询休假相关规定</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>绩效管理</h4>
+                        <p>绩效考核流程指导</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-user-plus"></i>
+                        <h4>招聘入职</h4>
+                        <p>招聘流程和入职指南</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <h4 style="color: #64748b; margin-bottom: 1rem;">💡 常见问题示例（点击快速提问）</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;"
+                        id="exampleQuestions">
+                        <!-- 示例问题将通过JavaScript添加 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天容器 -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3><i class="fas fa-robot"></i> 开始对话</h3>
+                <p>请随时向我提问关于HR政策的任何问题</p>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- 初始欢迎消息 -->
+                <div class="message assistant">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            <p>您好！我是科技的HR助手 🤖</p>
+                            <p>我可以帮助您了解：</p>
+                            <ul>
+                                <li><strong>员工福利政策</strong> - 各种福利待遇详情</li>
+                                <li><strong>休假制度</strong> - 年假、病假、事假等规定</li>
+                                <li><strong>绩效管理</strong> - 考核标准和流程</li>
+                                <li><strong>招聘流程</strong> - 从面试到入职的完整流程</li>
+                                <li><strong>入职指南</strong> - 新员工必知事项</li>
+                            </ul>
+                            <p>请随时向我提问！我会基于公司最新的员工手册为您提供准确的信息。</p>
+                        </div>
+                        <div class="message-time" id="welcomeTime"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <i class="fas fa-robot"></i>
+                <span>HR助手正在思考中</span>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea id="chatInput" class="chat-input" placeholder="请输入您的问题，例如：请问年假有多少天？" rows="1"></textarea>
+                    <button id="sendButton" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let messageCount = 0;
+        let isLoading = false;
+
+        // DOM元素
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const messageCountElement = document.getElementById('messageCount');
+        const vectorCountElement = document.getElementById('vectorCount');
+        const welcomeTimeElement = document.getElementById('welcomeTime');
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            // 设置欢迎消息时间
+            welcomeTimeElement.textContent = new Date().toLocaleTimeString();
+
+            // 加载系统统计
+            loadStats();
+
+            // 定期检查系统健康状态
+            setInterval(checkHealth, 30000);
+
+            // 初始健康检查
+            checkHealth();
+
+            // 聚焦输入框
+            chatInput.focus();
+
+            // 添加示例问题
+            addExampleQuestions();
+        });
+
+        // 收起/展开欢迎卡片
+        function toggleWelcome() {
+            const welcomeCard = document.getElementById('welcomeCard');
+            const collapseBtn = welcomeCard.querySelector('.collapse-btn i');
+
+            welcomeCard.classList.toggle('collapsed');
+            collapseBtn.classList.toggle('rotated');
+        }
+
+        // Markdown解析函数
+        function parseMarkdown(text) {
+            // 处理标题
+            text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            text = text.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+
+            // 处理粗体和斜体
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            // 处理代码块
+            text = text.replace(/```([\s\S]*?)```/g, '<pre><code>\$1</code></pre>');
+            text = text.replace(/`([^`]+)`/g, '<code>\$1</code>');
+
+            // 处理引用
+            text = text.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+            // 处理列表
+            const lines = text.split('\n');
+            let result = [];
+            let inList = false;
+            let listType = '';
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmedLine = line.trim();
+
+                // 检测无序列表
+                if (trimmedLine.match(/^[-*+]\s+(.+)/)) {
+                    if (!inList || listType !== 'ul') {
+                        if (inList) result.push(`</${listType}>`);
+                        result.push('<ul>');
+                        inList = true;
+                        listType = 'ul';
+                    }
+                    const content = trimmedLine.replace(/^[-*+]\s+/, '');
+                    result.push(`<li>${content}</li>`);
+                }
+                // 检测有序列表
+                else if (trimmedLine.match(/^\d+\.\s+(.+)/)) {
+                    if (!inList || listType !== 'ol') {
+                        if (inList) result.push(`</${listType}>`);
+                        result.push('<ol>');
+                        inList = true;
+                        listType = 'ol';
+                    }
+                    const content = trimmedLine.replace(/^\d+\.\s+/, '');
+                    result.push(`<li>${content}</li>`);
+                }
+                // 非列表行
+                else {
+                    if (inList) {
+                        result.push(`</${listType}>`);
+                        inList = false;
+                        listType = '';
+                    }
+
+                    if (trimmedLine === '') {
+                        result.push('<br>');
+                    } else if (!trimmedLine.match(/^<(h[1-6]|blockquote|pre)/)) {
+                        result.push(`<p>${line}</p>`);
+                    } else {
+                        result.push(line);
+                    }
+                }
+            }
+
+            // 关闭未关闭的列表
+            if (inList) {
+                result.push(`</${listType}>`);
+            }
+
+            return result.join('\n');
+        }
+
+        // 格式化消息内容 - 改进的Markdown解析
+        function formatMessageContent(content) {
+            // 首先进行Markdown解析
+            let formattedContent = parseMarkdown(content);
+
+            // 清理多余的空行
+            formattedContent = formattedContent.replace(/(<br>\s*){3,}/g, '<br><br>');
+
+            // 处理段落间距
+            formattedContent = formattedContent.replace(/<\/p>\s*<p>/g, '</p><p>');
+
+            return formattedContent;
+        }
+
+        // 显示消息
+        function displayMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${message.role}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = message.role === 'user' ?
+                '<i class="fas fa-user"></i>' :
+                '<i class="fas fa-robot"></i>';
+
+            const content = document.createElement('div');
+            content.className = 'message-content';
+
+            const messageText = document.createElement('div');
+            messageText.className = 'message-text';
+
+            // 对助手消息进行Markdown格式化
+            if (message.role === 'assistant') {
+                messageText.innerHTML = formatMessageContent(message.content);
+            } else {
+                // 用户消息简单处理
+                messageText.innerHTML = message.content.replace(/\n/g, '<br>');
+            }
+
+            content.appendChild(messageText);
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = new Date(message.timestamp).toLocaleTimeString();
+            content.appendChild(timeDiv);
+
+            // 添加相关性指示器（仅对助手消息）
+            if (message.role === 'assistant' && message.hasOwnProperty('is_relevant')) {
+                const relevanceDiv = document.createElement('div');
+                relevanceDiv.className = `relevance-indicator ${message.is_relevant ? 'relevant' : 'irrelevant'}`;
+                relevanceDiv.textContent = message.is_relevant ? 'HR相关' : '非HR相关';
+                content.appendChild(relevanceDiv);
+            }
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // 更新消息计数
+            messageCount++;
+            messageCountElement.textContent = messageCount;
+        }
+
+        // 显示打字指示器
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'flex';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 隐藏打字指示器
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // 发送消息
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isLoading) return;
+
+            // 显示用户消息
+            displayMessage({
+                role: 'user',
+                content: message,
+                timestamp: new Date().toISOString()
+            });
+
+            // 清空输入框并禁用发送按钮
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            isLoading = true;
+            sendButton.disabled = true;
+            showTypingIndicator();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                hideTypingIndicator();
+
+                // 显示助手回复
+                displayMessage({
+                    role: 'assistant',
+                    content: data.response,
+                    timestamp: new Date().toISOString(),
+                    is_relevant: data.is_relevant
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideTypingIndicator();
+
+                displayMessage({
+                    role: 'assistant',
+                    content: '抱歉，我遇到了一些技术问题。请稍后再试。如果问题持续存在，请联系技术支持。',
+                    timestamp: new Date().toISOString(),
+                    is_relevant: false
+                });
+            } finally {
+                isLoading = false;
+                sendButton.disabled = false;
+                chatInput.focus();
+            }
+        }
+
+        // 加载系统统计
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    vectorCountElement.textContent = stats.vector_count || '-';
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+                vectorCountElement.textContent = '错误';
+            }
+        }
+
+        // 检查系统健康状态
+        async function checkHealth() {
+            try {
+                const response = await fetch('/api/health');
+                if (response.ok) {
+                    // 系统正常，保持当前状态
+                } else {
+                    throw new Error('Health check failed');
+                }
+            } catch (error) {
+                console.error('Health check failed:', error);
+                // 可以在这里添加离线状态的UI更新
+            }
+        }
+
+        // 事件监听器
+        sendButton.addEventListener('click', sendMessage);
+
+        chatInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // 自动调整输入框高度
+        chatInput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // 快捷示例问题
+        const exampleQuestions = [
+            "请问年假有多少天？",
+            "如何申请病假？",
+            "绩效考核的标准是什么？",
+            "新员工入职需要准备什么材料？",
+            "公司有哪些福利待遇？"
+        ];
+
+        // 添加示例问题
+        function addExampleQuestions() {
+            const container = document.getElementById('exampleQuestions');
+            exampleQuestions.forEach(question => {
+                const button = document.createElement('button');
+                button.className = 'example-question';
+                button.textContent = question;
+                button.style.cssText = `
+                        background: #f1f5f9; 
+                        border: 1px solid #e2e8f0; 
+                        border-radius: 20px; 
+                        padding: 0.5rem 1rem; 
+                        cursor: pointer; 
+                        transition: all 0.3s ease;
+                        font-size: 0.9rem; 
+                        color: #475569;
+                        margin: 0.25rem;
+                    `;
+
+                button.addEventListener('click', () => {
+                    chatInput.value = question;
+                    chatInput.focus();
+                    sendMessage();
+                });
+
+                button.addEventListener('mouseenter', () => {
+                    button.style.background = '#667eea';
+                    button.style.color = 'white';
+                    button.style.transform = 'translateY(-1px)';
+                    button.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
+                });
+
+                button.addEventListener('mouseleave', () => {
+                    button.style.background = '#f1f5f9';
+                    button.style.color = '#475569';
+                    button.style.transform = 'translateY(0)';
+                    button.style.boxShadow = 'none';
+                });
+
+                container.appendChild(button);
+            });
+        }
+
+        // 添加复制消息功能
+        function addCopyFunctionality() {
+            document.addEventListener('mouseenter', function (e) {
+                if (e.target.closest('.message.assistant .message-content')) {
+                    const messageContent = e.target.closest('.message-content');
+
+                    // 检查是否已经有复制按钮
+                    if (messageContent.querySelector('.copy-button')) return;
+
+                    const copyButton = document.createElement('button');
+                    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyButton.className = 'copy-button';
+                    copyButton.style.cssText = `
+                            position: absolute;
+                            top: 0.5rem;
+                            right: 0.5rem;
+                            background: rgba(0,0,0,0.1);
+                            border: none;
+                            border-radius: 4px;
+                            padding: 0.25rem 0.5rem;
+                            cursor: pointer;
+                            opacity: 0.7;
+                            transition: all 0.3s ease;
+                            z-index: 10;
+                        `;
+
+                    copyButton.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        const text = messageContent.querySelector('.message-text').textContent;
+                        navigator.clipboard.writeText(text).then(() => {
+                            copyButton.innerHTML = '<i class="fas fa-check"></i>';
+                            copyButton.style.background = 'rgba(34, 197, 94, 0.8)';
+                            copyButton.style.color = 'white';
+                            setTimeout(() => {
+                                copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                                copyButton.style.background = 'rgba(0,0,0,0.1)';
+                                copyButton.style.color = 'inherit';
+                            }, 1500);
+                        });
+                    });
+
+                    messageContent.style.position = 'relative';
+                    messageContent.appendChild(copyButton);
+
+                    // 鼠标离开时移除按钮
+                    const removeButton = () => {
+                        if (copyButton.parentNode) {
+                            copyButton.remove();
+                        }
+                    };
+
+                    messageContent.addEventListener('mouseleave', removeButton, { once: true });
+                }
+            });
+        }
+
+        // 导出对话功能
+        function exportChat() {
+            const messages = document.querySelectorAll('.message');
+            let chatText = '科技HR助手对话记录\n';
+            chatText += '导出时间: ' + new Date().toLocaleString() + '\n';
+            chatText += '='.repeat(50) + '\n\n';
+
+            messages.forEach(message => {
+                const role = message.classList.contains('user') ? '👤 用户' : '🤖 HR助手';
+                const content = message.querySelector('.message-text').textContent;
+                const time = message.querySelector('.message-time').textContent;
+
+                chatText += `${role} [${time}]\n`;
+                chatText += content + '\n';
+                chatText += '-'.repeat(30) + '\n\n';
+            });
+
+            const blob = new Blob([chatText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `HR助手对话记录_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 添加键盘快捷键
+        document.addEventListener('keydown', function (e) {
+            // Ctrl/Cmd + Enter 发送消息
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+
+            // ESC 清空输入框
+            if (e.key === 'Escape') {
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+                chatInput.focus();
+            }
+
+            // Ctrl/Cmd + K 聚焦输入框
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                chatInput.focus();
+            }
+        });
+
+        // 滚动到底部
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 初始化所有功能
+        function initializeFeatures() {
+            addCopyFunctionality();
+        }
+
+        // 页面加载完成后初始化功能
+        setTimeout(initializeFeatures, 1000);
+
+        // 响应式处理
+        window.addEventListener('resize', function () {
+            // 调整聊天容器高度
+            const mainContainer = document.querySelector('.main-container');
+            const header = document.querySelector('.header');
+            mainContainer.style.height = `calc(100vh - ${header.offsetHeight}px)`;
+        });
+
+        // 页面可见性检测
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                checkHealth();
+                loadStats();
+            }
+        });
+
+        // 网络状态检测
+        window.addEventListener('online', function () {
+            console.log('网络连接已恢复');
+            checkHealth();
+        });
+
+        window.addEventListener('offline', function () {
+            console.log('网络连接已断开');
+        });
+
+        // 平滑滚动到新消息
+        function smoothScrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTo({
+                top: chatMessages.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+
+        // 消息发送后滚动
+        function scrollAfterMessage() {
+            setTimeout(smoothScrollToBottom, 100);
+        }
+    </script>
+</body>
+
+</html>
